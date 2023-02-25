@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,20 +6,33 @@ import {
   ImageBackground,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Background from './src/assets/images/background.png';
-import StartGameScreen from './src/screens/StartGameScreen';
-import GameScreen from './src/screens/GameScreen';
-import Colors from './src/constants/colors';
-import GameOverScreen from './src/screens/GameOverScreen';
+import Background from './assets/images/background.png';
+import StartGameScreen from './screens/StartGameScreen';
+import GameScreen from './screens/GameScreen';
+import Colors from './constants/colors';
+import GameOverScreen from './screens/GameOverScreen';
 
 function App(): JSX.Element {
   const [userNumber, setUserNumber] = useState<number | null>(null);
   const [gameIsOver, setGameIsOver] = useState<boolean>(false);
-  const gameOverHandler = (gameOver: boolean): void => setGameIsOver(gameOver);
+  const [guessRounds, setGuessRounds] = useState<number>(0);
+  const gameOverHandler = (
+    gameOver: boolean,
+    numberOfNRounds: number,
+  ): void => {
+    setGameIsOver(gameOver);
+    setGuessRounds(numberOfNRounds);
+  };
 
   const pickedNumberHandler = (pickedNumber: number): void => {
     setUserNumber(pickedNumber);
-    gameOverHandler(false);
+    gameOverHandler(false, guessRounds);
+  };
+
+  const startNewGameHandler = (): void => {
+    setUserNumber(null);
+    setGuessRounds(0);
+    gameOverHandler(false, guessRounds);
   };
 
   return (
@@ -42,7 +55,11 @@ function App(): JSX.Element {
           {userNumber && !gameIsOver ? (
             <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
           ) : gameIsOver ? (
-            <GameOverScreen />
+            <GameOverScreen
+              userNumber={userNumber}
+              roundsNumber={guessRounds}
+              onStartNewGame={startNewGameHandler}
+            />
           ) : (
             <StartGameScreen onPickNumber={pickedNumberHandler} />
           )}

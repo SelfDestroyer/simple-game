@@ -1,6 +1,13 @@
 import React, {FC, useState, useEffect} from 'react';
-import {View, StyleSheet, Platform, Alert} from 'react-native';
-import Title from '../components/UI/Text/Title';
+import {
+  View,
+  StyleSheet,
+  Platform,
+  Alert,
+  Vibration,
+  FlatList,
+  ListRenderItem,
+} from 'react-native';
 import generateRandomBetween from '../utils/generateRandomBetween';
 import NumberContainer from '../components/Game/NumberContainer';
 import PrimaryButton from '../components/UI/Button/PrimaryButton';
@@ -9,10 +16,14 @@ import InstructionText from '../components/UI/Text/InstructionText';
 import ButtonsGroup from '../components/UI/Button/ButtonsGroup';
 import ButtonContainer from '../components/UI/Button/ButtonContainer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import GuessLogItem from '../components/Game/GuessLogItem';
 
 interface IGameScreen {
   readonly userNumber: number;
-  readonly onGameOver: (gameIsOver: boolean) => void;
+  readonly onGameOver: (
+    gameIsOver: boolean,
+    getGuessRoundsListLength: number,
+  ) => void;
 }
 
 let minBoundary = 1;
@@ -22,18 +33,29 @@ const GameScreen: FC<IGameScreen> = ({userNumber, onGameOver}): JSX.Element => {
   const [currentGuess, setCurrentGuess] = useState<number>(
     generateRandomBetween(1, 100, userNumber),
   );
+  const [guessRounds, setGuessRounds] = useState<number[]>([currentGuess]);
+
+  const guessRoundsHandler = (newValue: number): void =>
+    setGuessRounds((prevState: number[]) => [newValue, ...prevState]);
+  const getGuessRoundsListLength = guessRounds.length;
 
   useEffect(() => {
     if (currentGuess === userNumber && userNumber) {
-      onGameOver(true);
+      onGameOver(true, getGuessRoundsListLength);
     }
-  }, [currentGuess, onGameOver, userNumber]);
+  }, [currentGuess, getGuessRoundsListLength, onGameOver, userNumber]);
+
+  useEffect(() => {
+    minBoundary = 1;
+    maxBoundary = 100;
+  }, []);
 
   const nextCurrentGuessHandler = (direction: string): void => {
     if (
       (direction === 'lower' && currentGuess < userNumber) ||
       (direction === 'greater' && currentGuess > userNumber)
     ) {
+      Vibration.vibrate(700);
       Alert.alert("Don't lie!", 'You know that this is wrong....', [
         {text: 'Sorry!', style: 'cancel'},
       ]);
@@ -46,10 +68,26 @@ const GameScreen: FC<IGameScreen> = ({userNumber, onGameOver}): JSX.Element => {
       minBoundary = currentGuess + 1;
     }
 
-    setCurrentGuess(
-      generateRandomBetween(minBoundary, maxBoundary, currentGuess),
+    const newRndNumber = generateRandomBetween(
+      minBoundary,
+      maxBoundary,
+      currentGuess,
     );
+
+    setCurrentGuess(newRndNumber);
+    guessRoundsHandler(newRndNumber);
   };
+
+  const renderItemHandler = ({
+    item,
+    index,
+  }: {
+    item: number;
+    index: number;
+  }): JSX.Element => (
+    <GuessLogItem roundNumber={getGuessRoundsListLength - index} guess={item} />
+  );
+  const keyExtractorHandler = (item: number): string => `key-${item}`;
 
   return (
     <View style={styles.container}>
@@ -74,6 +112,15 @@ const GameScreen: FC<IGameScreen> = ({userNumber, onGameOver}): JSX.Element => {
           </ButtonContainer>
         </ButtonsGroup>
       </Card>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={guessRounds}
+          renderItem={renderItemHandler}
+          keyExtractor={keyExtractorHandler}
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
+        />
+      </View>
     </View>
   );
 };
@@ -92,5 +139,9 @@ const styles = StyleSheet.create({
   },
   instructionText: {
     marginBottom: 15,
+  },
+  listContainer: {
+    flex: 1,
+    padding: 10,
   },
 });
