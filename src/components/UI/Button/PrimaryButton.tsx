@@ -1,13 +1,20 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet, Pressable, Platform} from 'react-native';
+import Colors from '../../../constants/colors';
 
 interface IPrimaryButtonProps {
-  readonly title: string;
+  readonly title?: string;
+  readonly onPress?: () => void;
+  readonly children?: JSX.Element | JSX.Element[];
 }
 
-const PrimaryButton: FC<IPrimaryButtonProps> = ({title}): JSX.Element => {
+const PrimaryButton: FC<IPrimaryButtonProps> = ({
+  title,
+  onPress,
+  children,
+}): JSX.Element => {
   const androidRippleConfig = {
-    color: '#b299a5',
+    color: Colors.primary600,
     borderless: true,
   };
 
@@ -20,9 +27,13 @@ const PrimaryButton: FC<IPrimaryButtonProps> = ({title}): JSX.Element => {
     <View style={styles.buttonOuterContainer}>
       <Pressable
         style={onStyleChangeHandler}
-        onPress={() => console.log('press')}
+        onPress={onPress}
         android_ripple={androidRippleConfig}>
-        <Text style={styles.buttonText}>{title}</Text>
+        {children ? (
+          <Text style={styles.buttonText}>{children}</Text>
+        ) : (
+          <Text style={styles.buttonText}>{title}</Text>
+        )}
       </Pressable>
     </View>
   );
@@ -45,17 +56,26 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   buttonInnerContainer: {
-    backgroundColor: '#72063c',
+    backgroundColor: Colors.primary500,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
   iOSButtonPressed: {
     opacity: 0.25,
-    backgroundColor: '#4d0528',
+    backgroundColor: Colors.primary600,
   },
   buttonText: {
     color: 'white',
     textAlign: 'center',
-    fontWeight: '700',
+
+    ...Platform.select({
+      android: {
+        fontFamily: 'Laila-Bold',
+      },
+      ios: {
+        fontFamily: 'Laila-Bold',
+        fontWeight: '700',
+      },
+    }),
   },
 });

@@ -1,23 +1,63 @@
-import React from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  ImageBackground,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
+import Background from './src/assets/images/background.png';
 import StartGameScreen from './src/screens/StartGameScreen';
+import GameScreen from './src/screens/GameScreen';
+import Colors from './src/constants/colors';
+import GameOverScreen from './src/screens/GameOverScreen';
 
 function App(): JSX.Element {
+  const [userNumber, setUserNumber] = useState<number | null>(null);
+  const [gameIsOver, setGameIsOver] = useState<boolean>(false);
+  const gameOverHandler = (gameOver: boolean): void => setGameIsOver(gameOver);
+
+  const pickedNumberHandler = (pickedNumber: number): void => {
+    setUserNumber(pickedNumber);
+    gameOverHandler(false);
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']}>
-        <StartGameScreen />
-      </LinearGradient>
-    </SafeAreaView>
+    <LinearGradient
+      colors={[Colors.primary700, Colors.accent500]}
+      start={{x: 0, y: 0}}
+      end={{x: 0, y: 1}}
+      style={styles.rootScreen}>
+      <ImageBackground
+        source={Background}
+        resizeMode={'cover'}
+        style={styles.rootScreen}
+        imageStyle={styles.backgroundImage}>
+        <SafeAreaView style={styles.rootScreen}>
+          <StatusBar
+            barStyle={'light-content'}
+            translucent
+            backgroundColor="transparent"
+          />
+          {userNumber && !gameIsOver ? (
+            <GameScreen userNumber={userNumber} onGameOver={gameOverHandler} />
+          ) : gameIsOver ? (
+            <GameOverScreen />
+          ) : (
+            <StartGameScreen onPickNumber={pickedNumberHandler} />
+          )}
+        </SafeAreaView>
+      </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  rootScreen: {
     flex: 1,
-    backgroundColor: '#ddb52f',
+  },
+  backgroundImage: {
+    opacity: 0.15,
   },
 });
 
