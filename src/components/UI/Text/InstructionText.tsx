@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Text, StyleSheet, Platform} from 'react-native';
+import {Text, StyleSheet, Platform, useWindowDimensions} from 'react-native';
 import Colors from '../../../constants/colors';
 
 interface IInstructionText {
@@ -11,7 +11,15 @@ const InstructionText: FC<IInstructionText> = ({
   content,
   style,
 }): JSX.Element => {
-  return <Text style={[styles.instructionText, style]}>{content}</Text>;
+  const {height, width} = useWindowDimensions();
+  const instructionTextDynamicStyles = {
+    fontSize: height > width ? 24 : 18,
+  };
+  return (
+    <Text style={[styles.instructionText, instructionTextDynamicStyles, style]}>
+      {content}
+    </Text>
+  );
 };
 
 export default InstructionText;
@@ -19,7 +27,6 @@ export default InstructionText;
 const styles = StyleSheet.create({
   instructionText: {
     color: Colors.accent500,
-    fontSize: 23,
 
     ...Platform.select({
       android: {

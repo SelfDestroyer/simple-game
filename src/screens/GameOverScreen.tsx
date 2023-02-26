@@ -1,5 +1,13 @@
 import React, {FC, useEffect} from 'react';
-import {View, StyleSheet, Image, Platform, Text, Vibration} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Platform,
+  Text,
+  Vibration,
+  useWindowDimensions,
+} from 'react-native';
 import SuccessImage from '../assets/images/success.png';
 import Title from '../components/UI/Text/Title';
 import Colors from '../constants/colors';
@@ -16,15 +24,27 @@ const GameOverScreen: FC<IGameOverScreenProps> = ({
   userNumber,
   onStartNewGame,
 }): JSX.Element => {
+  const {width, height} = useWindowDimensions();
+
+  const containerDynamicStyles = {
+    padding: height < width ? 12 : 24,
+  };
+  const imageContainerDynamicStyles = {
+    width: height < width ? 130 : width < 400 ? 200 : 300,
+    height: height < width ? 130 : width < 400 ? 200 : 300,
+    borderRadius: height < width ? 130 : width < 400 ? 200 : 200,
+    margin: height < width ? 18 : 36,
+  };
+
   useEffect(() => {
     Vibration.vibrate(700);
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerDynamicStyles]}>
       <Title title={'Game Over'} />
 
-      <View style={styles.imageContainer}>
+      <View style={[styles.imageContainer, imageContainerDynamicStyles]}>
         <Image style={styles.image} source={SuccessImage} />
       </View>
       <Text style={styles.summaryText}>
@@ -43,16 +63,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 24,
   },
   imageContainer: {
     overflow: 'hidden',
-    width: 300,
-    height: 300,
-    borderRadius: 200,
     borderWidth: 3,
     borderColor: Colors.primary800,
-    margin: 36,
   },
   image: {
     height: '100%',

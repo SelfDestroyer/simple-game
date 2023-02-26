@@ -6,7 +6,7 @@ import {
   Alert,
   Vibration,
   FlatList,
-  ListRenderItem,
+  useWindowDimensions,
 } from 'react-native';
 import generateRandomBetween from '../utils/generateRandomBetween';
 import NumberContainer from '../components/Game/NumberContainer';
@@ -17,6 +17,7 @@ import ButtonsGroup from '../components/UI/Button/ButtonsGroup';
 import ButtonContainer from '../components/UI/Button/ButtonContainer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import GuessLogItem from '../components/Game/GuessLogItem';
+import Title from '../components/UI/Text/Title';
 
 interface IGameScreen {
   readonly userNumber: number;
@@ -34,6 +35,7 @@ const GameScreen: FC<IGameScreen> = ({userNumber, onGameOver}): JSX.Element => {
     generateRandomBetween(1, 100, userNumber),
   );
   const [guessRounds, setGuessRounds] = useState<number[]>([currentGuess]);
+  const {width, height} = useWindowDimensions();
 
   const guessRoundsHandler = (newValue: number): void =>
     setGuessRounds((prevState: number[]) => [newValue, ...prevState]);
@@ -89,30 +91,79 @@ const GameScreen: FC<IGameScreen> = ({userNumber, onGameOver}): JSX.Element => {
   );
   const keyExtractorHandler = (item: number): string => `key-${item}`;
 
+  const containerDynamicStyles = {
+    padding: height < width ? 10 : 16,
+    ...Platform.select({
+      android: {
+        marginTop: height < width ? 0 : 50,
+      },
+    }),
+  };
+
+  const instructionTextDynamicStyles = {
+    marginBottom: height < width ? 0 : 15,
+    marginTop: height < width ? 50 : 0,
+  };
+
+  const listContainerTextDynamicStyles = {
+    padding: height < width ? 0 : 10,
+    paddingBottom: height < width ? 0 : 0,
+    alignSelf: height < width ? 'stretch' : 'auto',
+  };
+
   return (
-    <View style={styles.container}>
-      <NumberContainer userNumber={currentGuess} />
-      <Card>
-        <InstructionText
-          content={'Higher or Lower?'}
-          style={styles.instructionText}
-        />
-        <ButtonsGroup>
-          <ButtonContainer>
-            <PrimaryButton
-              onPress={nextCurrentGuessHandler.bind(this, 'lower')}>
-              <MaterialIcons name="remove" size={24} color="white" />
-            </PrimaryButton>
-          </ButtonContainer>
-          <ButtonContainer>
-            <PrimaryButton
-              onPress={nextCurrentGuessHandler.bind(this, 'greater')}>
-              <MaterialIcons name="add" size={24} color="white" />
-            </PrimaryButton>
-          </ButtonContainer>
-        </ButtonsGroup>
-      </Card>
-      <View style={styles.listContainer}>
+    <View style={[styles.container, containerDynamicStyles]}>
+      <Title title={"Opponent's Guess"} />
+
+      {height < width ? (
+        <>
+          <InstructionText
+            content={'Higher or Lower?'}
+            style={instructionTextDynamicStyles}
+          />
+          <View style={styles.containerLandscape}>
+            <ButtonContainer>
+              <PrimaryButton
+                onPress={nextCurrentGuessHandler.bind(this, 'lower')}>
+                <MaterialIcons name="remove" size={24} color="white" />
+              </PrimaryButton>
+            </ButtonContainer>
+            <NumberContainer userNumber={currentGuess} />
+            <ButtonContainer>
+              <PrimaryButton
+                onPress={nextCurrentGuessHandler.bind(this, 'greater')}>
+                <MaterialIcons name="add" size={24} color="white" />
+              </PrimaryButton>
+            </ButtonContainer>
+          </View>
+        </>
+      ) : (
+        <>
+          <NumberContainer userNumber={currentGuess} />
+          <Card>
+            <InstructionText
+              content={'Higher or Lower?'}
+              style={instructionTextDynamicStyles}
+            />
+            <ButtonsGroup>
+              <ButtonContainer>
+                <PrimaryButton
+                  onPress={nextCurrentGuessHandler.bind(this, 'lower')}>
+                  <MaterialIcons name="remove" size={24} color="white" />
+                </PrimaryButton>
+              </ButtonContainer>
+              <ButtonContainer>
+                <PrimaryButton
+                  onPress={nextCurrentGuessHandler.bind(this, 'greater')}>
+                  <MaterialIcons name="add" size={24} color="white" />
+                </PrimaryButton>
+              </ButtonContainer>
+            </ButtonsGroup>
+          </Card>
+        </>
+      )}
+
+      <View style={[styles.listContainer, listContainerTextDynamicStyles]}>
         <FlatList
           data={guessRounds}
           renderItem={renderItemHandler}
@@ -130,18 +181,13 @@ export default GameScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    ...Platform.select({
-      android: {
-        marginTop: 50,
-      },
-    }),
+    alignItems: 'center',
   },
-  instructionText: {
-    marginBottom: 15,
+  containerLandscape: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   listContainer: {
     flex: 1,
-    padding: 10,
   },
 });

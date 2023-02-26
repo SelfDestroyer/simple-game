@@ -36,21 +36,21 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SimpleGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleGameTests.m; sourceTree = "<group>"; };
 		06E0AA7329A8DE1300FFEEEC /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
-		0A40DE9AB0124EAC885F75C6 /* Laila-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-SemiBold.ttf"; path = "../src/assets/fonts/Laila-SemiBold.ttf"; sourceTree = "<group>"; };
+		0A40DE9AB0124EAC885F75C6 /* Laila-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-SemiBold.ttf"; path = "../src/assets/fonts/Laila-SemiBold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SimpleGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SimpleGame/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = SimpleGame/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SimpleGame/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SimpleGame/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SimpleGame/main.m; sourceTree = "<group>"; };
-		3456086B567F452F91F1F72E /* Laila-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-Regular.ttf"; path = "../src/assets/fonts/Laila-Regular.ttf"; sourceTree = "<group>"; };
+		3456086B567F452F91F1F72E /* Laila-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-Regular.ttf"; path = "../src/assets/fonts/Laila-Regular.ttf"; sourceTree = "<group>"; };
 		4EAE5CE153A1D5FBCE8313F1 /* Pods-SimpleGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleGame.release.xcconfig"; path = "Target Support Files/Pods-SimpleGame/Pods-SimpleGame.release.xcconfig"; sourceTree = "<group>"; };
 		4F4CABE29EE05802BFD6A845 /* Pods-SimpleGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleGame.debug.xcconfig"; path = "Target Support Files/Pods-SimpleGame/Pods-SimpleGame.debug.xcconfig"; sourceTree = "<group>"; };
 		7A2FCE8E47E6EFB9B39A8C80 /* Pods-SimpleGame-SimpleGameTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleGame-SimpleGameTests.release.xcconfig"; path = "Target Support Files/Pods-SimpleGame-SimpleGameTests/Pods-SimpleGame-SimpleGameTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SimpleGame/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AE4D7F333E4140199098CA68 /* Laila-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-Bold.ttf"; path = "../src/assets/fonts/Laila-Bold.ttf"; sourceTree = "<group>"; };
+		AE4D7F333E4140199098CA68 /* Laila-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-Bold.ttf"; path = "../src/assets/fonts/Laila-Bold.ttf"; sourceTree = "<group>"; };
 		B6B0C0D6DDF320ED3DB46E66 /* libPods-SimpleGame-SimpleGameTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleGame-SimpleGameTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D516823E0E0D48F0AC5F9054 /* Laila-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-Medium.ttf"; path = "../src/assets/fonts/Laila-Medium.ttf"; sourceTree = "<group>"; };
+		D516823E0E0D48F0AC5F9054 /* Laila-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Laila-Medium.ttf"; path = "../src/assets/fonts/Laila-Medium.ttf"; sourceTree = "<group>"; };
 		D517E4374517F547060E097D /* libPods-SimpleGame.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleGame.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FE050776AB2C3238166D0AD3 /* Pods-SimpleGame-SimpleGameTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleGame-SimpleGameTests.debug.xcconfig"; path = "Target Support Files/Pods-SimpleGame-SimpleGameTests/Pods-SimpleGame-SimpleGameTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,7 +116,6 @@
 				0A40DE9AB0124EAC885F75C6 /* Laila-SemiBold.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {

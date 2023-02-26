@@ -7,6 +7,9 @@ import {
   TextInputChangeEventData,
   NativeSyntheticEvent,
   Alert,
+  useWindowDimensions,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import PrimaryButton from '../components/UI/Button/PrimaryButton';
 import Colors from '../constants/colors';
@@ -22,6 +25,7 @@ interface IStartGameScreen {
 
 const StartGameScreen: FC<IStartGameScreen> = ({onPickNumber}): JSX.Element => {
   const [userNumber, setUserNumber] = useState<string>('');
+  const {height, width} = useWindowDimensions();
 
   const changeTextInputHandler = (
     e: NativeSyntheticEvent<TextInputChangeEventData>,
@@ -45,68 +49,80 @@ const StartGameScreen: FC<IStartGameScreen> = ({onPickNumber}): JSX.Element => {
     }
   };
 
+  const screenContainerLandscape = {
+    ...Platform.select({
+      android: {
+        marginTop: height < width ? 30 : 100,
+      },
+      ios: {
+        marginTop: height < width ? 30 : 50,
+      },
+    }),
+  };
+
   return (
-    <View style={styles.screenContainer}>
-      <Title title={'Guess My Number'} />
-      <Card>
-        <InstructionText
-          content={'Enter a Number'}
-          style={styles.instructionText}
-        />
-        <TextInput
-          style={styles.input}
-          maxLength={2}
-          textAlign={'center'}
-          keyboardType={'numeric'}
-          inputMode={'numeric'}
-          cursorColor={Colors.accent500}
-          selectionColor={Colors.accent500}
-          autoCorrect={false}
-          onChange={changeTextInputHandler}
-          value={userNumber}
-          onSubmitEditing={confirmTextInputHandler}
-          autoFocus
-        />
-        {userNumber.length !== 0 ? (
-          <ButtonsGroup>
-            <ButtonContainer>
-              <PrimaryButton title={'Reset'} onPress={resetTextInputHandler} />
-            </ButtonContainer>
-            <ButtonContainer>
-              <PrimaryButton
-                title={'Confirm'}
-                onPress={confirmTextInputHandler}
-              />
-            </ButtonContainer>
-          </ButtonsGroup>
-        ) : (
-          <ButtonsGroup>
-            <ButtonContainer>
-              <PrimaryButton
-                title={'Confirm'}
-                onPress={confirmTextInputHandler}
-              />
-            </ButtonContainer>
-          </ButtonsGroup>
-        )}
-      </Card>
-    </View>
+    <ScrollView style={styles.screen}>
+      <KeyboardAvoidingView style={styles.screen} behavior={'position'}>
+        <View style={[styles.screenContainer, screenContainerLandscape]}>
+          <Title title={'Guess My Number'} />
+          <Card>
+            <InstructionText
+              content={'Enter a Number'}
+              style={styles.instructionText}
+            />
+            <TextInput
+              style={styles.input}
+              maxLength={2}
+              textAlign={'center'}
+              keyboardType={'numeric'}
+              inputMode={'numeric'}
+              cursorColor={Colors.accent500}
+              selectionColor={Colors.accent500}
+              autoCorrect={false}
+              onChange={changeTextInputHandler}
+              value={userNumber}
+              onSubmitEditing={confirmTextInputHandler}
+            />
+            {userNumber.length !== 0 ? (
+              <ButtonsGroup>
+                <ButtonContainer>
+                  <PrimaryButton
+                    title={'Reset'}
+                    onPress={resetTextInputHandler}
+                  />
+                </ButtonContainer>
+                <ButtonContainer>
+                  <PrimaryButton
+                    title={'Confirm'}
+                    onPress={confirmTextInputHandler}
+                  />
+                </ButtonContainer>
+              </ButtonsGroup>
+            ) : (
+              <ButtonsGroup>
+                <ButtonContainer>
+                  <PrimaryButton
+                    title={'Confirm'}
+                    onPress={confirmTextInputHandler}
+                  />
+                </ButtonContainer>
+              </ButtonsGroup>
+            )}
+          </Card>
+        </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   screenContainer: {
     flex: 1,
-    ...Platform.select({
-      android: {
-        marginTop: 100,
-      },
-      ios: {
-        marginTop: 50,
-      },
-    }),
     alignItems: 'center',
   },
   instructionText: {

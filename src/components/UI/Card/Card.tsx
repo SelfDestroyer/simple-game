@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, useWindowDimensions} from 'react-native';
 import Colors from '../../../constants/colors';
 
 interface ICard {
@@ -7,7 +7,16 @@ interface ICard {
 }
 
 const Card: FC<ICard> = ({children}): JSX.Element => {
-  return <View style={styles.cardContainer}>{children}</View>;
+  const {width, height} = useWindowDimensions();
+  const cardContainerDynamicStyles = {
+    marginTop: height < width ? 18 : 36,
+    padding: height < width ? 5 : 16,
+  };
+  return (
+    <View style={[styles.cardContainer, cardContainerDynamicStyles]}>
+      {children}
+    </View>
+  );
 };
 
 export default Card;
@@ -16,8 +25,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: Colors.primary800,
     marginHorizontal: 24,
-    marginTop: 20,
-    padding: 16,
     borderRadius: 8,
     elevation: 4,
     shadowColor: 'black',

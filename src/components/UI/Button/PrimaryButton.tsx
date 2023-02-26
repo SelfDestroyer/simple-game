@@ -1,5 +1,12 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Pressable, Platform} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Platform,
+  useWindowDimensions,
+} from 'react-native';
 import Colors from '../../../constants/colors';
 
 interface IPrimaryButtonProps {
@@ -17,11 +24,20 @@ const PrimaryButton: FC<IPrimaryButtonProps> = ({
     color: Colors.primary600,
     borderless: true,
   };
+  const {width, height} = useWindowDimensions();
+  const buttonInnerContainerDynamicStyles = {
+    paddingHorizontal: height < width ? 10 : 16,
+    paddingVertical: height < width ? 8 : 12,
+  };
 
   const onStyleChangeHandler = ({pressed}: {pressed: boolean}) =>
     pressed && Platform.OS === 'ios'
-      ? [styles.iOSButtonPressed, styles.buttonInnerContainer]
-      : styles.buttonInnerContainer;
+      ? [
+          styles.iOSButtonPressed,
+          styles.buttonInnerContainer,
+          buttonInnerContainerDynamicStyles,
+        ]
+      : [styles.buttonInnerContainer, buttonInnerContainerDynamicStyles];
 
   return (
     <View style={styles.buttonOuterContainer}>
@@ -57,8 +73,6 @@ const styles = StyleSheet.create({
   },
   buttonInnerContainer: {
     backgroundColor: Colors.primary500,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
   },
   iOSButtonPressed: {
     opacity: 0.25,
@@ -68,6 +82,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
 
+    fontSize: 14,
     ...Platform.select({
       android: {
         fontFamily: 'Laila-Bold',

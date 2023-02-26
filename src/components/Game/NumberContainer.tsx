@@ -1,5 +1,11 @@
 import React, {FC} from 'react';
-import {Text, View, StyleSheet, Platform} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Platform,
+  useWindowDimensions,
+} from 'react-native';
 import Colors from '../../constants/colors';
 
 interface INumberContainerProps {
@@ -9,9 +15,22 @@ interface INumberContainerProps {
 const NumberContainer: FC<INumberContainerProps> = ({
   userNumber,
 }): JSX.Element => {
+  const {width, height} = useWindowDimensions();
+
+  const containerDynamicStyles = {
+    padding: height < width ? 16 : 24,
+    margin: height < width ? 16 : 24,
+  };
+
+  const numberTextDynamicStyles = {
+    fontSize: height < width ? 32 : 40,
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.numberText}>{userNumber}</Text>
+    <View style={[styles.container, containerDynamicStyles]}>
+      <Text style={[styles.numberText, numberTextDynamicStyles]}>
+        {userNumber}
+      </Text>
     </View>
   );
 };
@@ -22,15 +41,12 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 4,
     borderColor: Colors.accent500,
-    padding: 24,
     borderRadius: 8,
-    margin: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
   numberText: {
     color: Colors.accent500,
-    fontSize: 36,
 
     ...Platform.select({
       android: {
